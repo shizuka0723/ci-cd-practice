@@ -1,4 +1,4 @@
-name: My First CI Workflow
+name: Python CI
 
 on:
   push:
@@ -7,17 +7,19 @@ on:
     branches: [ main ]
 
 jobs:
-  say-hello:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Check code
+      - name: Checkout code
         uses: actions/checkout@v4
-        
-      - name: Echo Hello
-        run: echo "Hello, More steps!"
 
-      - name: Show current date
-        run: date
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: List files in workspace
-        run: ls -la
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -v
