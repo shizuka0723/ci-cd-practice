@@ -61,3 +61,12 @@ jobs:
         run: |
           echo "Secret length check:"
           echo -n "$MY_SECRET" | wc -c
+  check-env-secret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use the env secret
+        env:
+         MY_SECRET: ${{secret.ENV}}
+        run: |
+          echo "Environment secret length check:"
+          echo -n "$MY_SECRET" | wc - c
