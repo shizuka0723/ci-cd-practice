@@ -67,7 +67,7 @@ jobs:
     steps:
       - name: Use the env secret
         env:
-          MY_SECRET: ${{secret.ENV}}
+          MY_SECRET: ${{secrets.ENV}}
         run: |
           echo "Environment secret length check:"
           echo -n "$MY_SECRET" | wc - c
