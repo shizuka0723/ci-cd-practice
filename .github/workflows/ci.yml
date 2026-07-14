@@ -8,11 +8,11 @@ on:
 
 jobs:
   say-hello:
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
     steps:
       - name: Check code
         uses: actions/checkout@v4
-        
+
       - name: Echo Hello
         run: echo "Hello, More steps!"
 
