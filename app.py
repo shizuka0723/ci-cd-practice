@@ -6,4 +6,4 @@ def multiply(a, b):
     return a * b
 
 
-type Point = tuple[float, float]
+Point = tuple[float, float]
