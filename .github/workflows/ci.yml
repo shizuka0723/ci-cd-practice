@@ -63,7 +63,7 @@ jobs:
           echo -n "$MY_SECRET" | wc -c
   check-env-secret:
     runs-on: ubuntu-latest
-    Environment: Enji
+    environment: Enji
     steps:
       - name: Use the env secret
         env:
