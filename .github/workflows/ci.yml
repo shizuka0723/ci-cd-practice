@@ -11,4 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo Hello
-        run: echo "Hello, PR Test!"
+        run: echo "Hello, More steps!"
+
+      - name: Show current date
+        run: date
+
+      - name: List files in workspace
+        run: ls -la
