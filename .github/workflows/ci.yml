@@ -3,10 +3,12 @@ name: My First CI Workflow
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   say-hello:
     runs-on: ubuntu-latest
     steps:
       - name: Echo Hello
-        run: echo "Hello, GitHub Actions!"
+        run: echo "Hello, PR Test!"
