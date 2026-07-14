@@ -50,6 +50,6 @@ jobs:
       - name: Use the secret
         env:
           MY_SECRET: ${{secrets.THE_WORLD}}
-        run:
+        run: |
           echo "Secret length check:"
           echo -n "$THE_WORLD" | wc -c
