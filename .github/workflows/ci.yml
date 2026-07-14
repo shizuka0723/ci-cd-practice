@@ -52,4 +52,4 @@ jobs:
           MY_SECRET: ${{secrets.THE_WORLD}}
         run: |
           echo "Secret length check:"
-          echo -n "$THE_WORLD" | wc -c
+          echo -n "$MY_SECRET" | wc -c
