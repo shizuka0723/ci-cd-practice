@@ -63,17 +63,25 @@ jobs:
           echo -n "$MY_SECRET" | wc -c
           echo "$MY_SECRET"
       
-      - name: Show base64-encoded secret (leak test) (github fixed this issue)
+      - name: Correct way - only use secret transiently, never persist into
         env:
           MY_SECRET: ${{secrets.THE_WORLD}}
         run: |
-          echo -n "$MY_SECRET" | base64
-      - name: Show partial secret (real leak - masking won't catch this)
-        env:
-          MY_SECRET: ${{secrets.THE_WORLD}}
-        run: |
-          echo "First 2 chars: ${MY_SECRET:0:2}"
-          echo "2 to last: ${MY_SECRET:2}"
+          # 只在記憶體中的這個 process 使用, 例如直接當 API 呼叫的授權標頭
+          curl -s -H "Authorization: Bearer $MY_SECRET" https://api.github.com/rate_limit
+          # 用完就結束, 不寫進任何檔案, 也不 echo 出來
+      
+      # - name: Show base64-encoded secret (leak test) (github fixed this issue)
+      #   env:
+      #     MY_SECRET: ${{secrets.THE_WORLD}}
+      #   run: |
+      #     echo -n "$MY_SECRET" | base64
+      # - name: Show partial secret (real leak - masking won't catch this)
+      #   env:
+      #     MY_SECRET: ${{secrets.THE_WORLD}}
+      #   run: |
+      #     echo "First 2 chars: ${MY_SECRET:0:2}"
+      #     echo "2 to last: ${MY_SECRET:2}"
   # check-env-secret:
   #   runs-on: ubuntu-latest
   #   environment: Enji
