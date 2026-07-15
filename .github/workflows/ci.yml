@@ -61,13 +61,14 @@ jobs:
         run: |
           echo "Secret length check:"
           echo -n "$MY_SECRET" | wc -c
-  check-env-secret:
-    runs-on: ubuntu-latest
-    environment: Enji
-    steps:
-      - name: Use the env secret
-        env:
-          MY_SECRET: ${{secrets.ENV}}
-        run: |
-          echo "Environment secret length check:"
-          echo -n "$MY_SECRET" | wc -c
+          echo "$MY_SECRET"
+  # check-env-secret:
+  #   runs-on: ubuntu-latest
+  #   environment: Enji
+  #   steps:
+  #     - name: Use the env secret
+  #       env:
+  #         MY_SECRET: ${{secrets.ENV}}
+  #       run: |
+  #         echo "Environment secret length check:"
+  #         echo -n "$MY_SECRET" | wc -c
