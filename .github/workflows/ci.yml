@@ -73,7 +73,7 @@ jobs:
           MY_SECRET: ${{secrets.THE_WORLD}}
         run: |
           echo "First 2 chars: ${MY_SECRET:0:2}"
-          echo "2 to last: ${MY_SECRET:2:}"
+          echo "2 to last: ${MY_SECRET:2}"
   # check-env-secret:
   #   runs-on: ubuntu-latest
   #   environment: Enji
