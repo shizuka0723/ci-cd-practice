@@ -63,11 +63,16 @@ jobs:
           echo -n "$MY_SECRET" | wc -c
           echo "$MY_SECRET"
       
-      - name: Show base64-encoded secret (leak test)
+      - name: Show base64-encoded secret (leak test) (github fixed this issue)
         env:
           MY_SECRET: ${{secrets.THE_WORLD}}
         run: |
           echo -n "$MY_SECRET" | base64
+      - name: Show partial secret (real leak - masking won't catch this)
+        env:
+          MY_SECRET: ${{secrets.THE_WORLD}}
+        run: |
+          echo "First 2 chars: ${MY_SECRET:0:2}"
   # check-env-secret:
   #   runs-on: ubuntu-latest
   #   environment: Enji
