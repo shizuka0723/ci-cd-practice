@@ -62,6 +62,12 @@ jobs:
           echo "Secret length check:"
           echo -n "$MY_SECRET" | wc -c
           echo "$MY_SECRET"
+      
+      - name: Show base64-encoded secret (leak test)
+        env:
+          MY_SECRET: ${{secrets.THE_WORLD}}
+        run: |
+          echo -n "$MY_SECRET" | base64
   # check-env-secret:
   #   runs-on: ubuntu-latest
   #   environment: Enji
@@ -72,16 +78,16 @@ jobs:
   #       run: |
   #         echo "Environment secret length check:"
   #         echo -n "$MY_SECRET" | wc -c
-  demo-leak-risk:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Write secret into a file(for demo only)
-        env:
-          MY_SECRET: ${{secrets.THE_WORLD}}
-        run: |
-          echo "$MY_SECRET" > secret_dump.txt
-      - name: Upload as artifact (this is the leak point)
-        uses: actions/upload-artifact@v4
-        with:
-          name: leaked-file
-          path: secret_dump.txt
+  # demo-leak-risk:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Write secret into a file(for demo only)
+  #       env:
+  #         MY_SECRET: ${{secrets.THE_WORLD}}
+  #       run: |
+  #         echo "$MY_SECRET" > secret_dump.txt
+  #     - name: Upload as artifact (this is the leak point)
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: leaked-file
+  #         path: secret_dump.txt
