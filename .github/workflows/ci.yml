@@ -1,4 +1,4 @@
-name: Python CI
+name: Full CI/CD Pipeline
 
 on:
   push:
@@ -6,41 +6,53 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      
-      - name: Install flake8
-        run: pip install flake8
-      
-      - name: Run lint check
-        run: flake8 . --max-line-length=100
+      - run: pip install flake8
+      - run: flake8 . --max-line-length=100
   test:
     needs: lint
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
         python-version: ['3.10','3.11','3.12']
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup environment
-        uses: ./.github/actions/setup-python-env
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-python-env
         with:
           python-version: ${{ matrix.python-version }}
+      - run: pytest -v
 
-      - name: Run tests
-        run: pytest -v
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: './site'
+      - id: deployment
+        uses: actions/deploy-pages@v4
   check-secret:
     runs-on: ubuntu-latest
     env:
