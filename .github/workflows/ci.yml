@@ -114,3 +114,11 @@ jobs:
   #       with:
   #         name: leaked-file
   #         path: secret_dump.txt
+  test-in-docker:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.12-slim
+    steps:
+      - uses: atcions/checkout@v4
+      - run: pip install -r requirements.txt pytest
+      - run: pytest -v
