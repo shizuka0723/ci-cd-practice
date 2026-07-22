@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - shell: bash
-        run: pip install -r requirements.txt
+      - run: python --version
+      - run: pip install -r requirements.txt
       - run: pytest -v
         
