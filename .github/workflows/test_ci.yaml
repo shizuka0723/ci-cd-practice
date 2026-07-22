@@ -1,0 +1,16 @@
+name: Test CI/CD By MySelf
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  ci-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        run: pip install -r requirements.txt
+      - run: pytest -v
+        
